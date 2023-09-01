@@ -5,13 +5,14 @@ from pathlib import Path
 sign = "██████████████████████████████████████████████████████████████████████████████████████\n█▄─▄▄─█▄─▄▄▀█▄─▄▄─█─▄▄▄▄█─▄▄▄▄█▄─██─▄█▄─▄▄▀█▄─▄▄─███─▄▄▄─█─▄▄─█─▄▄─█▄─█─▄█▄─▄▄─█▄─▄▄▀█\n██─▄▄▄██─▄─▄██─▄█▀█▄▄▄▄─█▄▄▄▄─██─██─███─▄─▄██─▄█▀███─███▀█─██─█─██─██─▄▀███─▄█▀██─▄─▄█\n▀▄▄▄▀▀▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▀▄▄▄▄▀▀▄▄▀▄▄▀▄▄▄▄▄▀▀▀▄▄▄▄▄▀▄▄▄▄▀▄▄▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▀▄▄▀"
 
 ## Where the magic happens
-def pressureCooker(nightmare):
+def pressureCooker(nightmare, list):
 
     ## Ask if the user wants to have the program send the message with the enter key or mouse click
     ## Of course have a loop preventing incorrect query
     while True:
-        clickOrEnter = input("Do you want the program to enter the input by pressing\na)enter\nb)mouse click\n[?] ")
+        clickOrEnter = input("Do you want the program to enter/send the input by pressing\na)enter\nb)mouse click\n[?] ")
         if clickOrEnter == "a" or clickOrEnter == "b":
+            list += "\nsend with: enter key" if input == "a" else "\nsend with: mouse click"
             break
         else:
             print("[!] ERROR DETECTED: Incorrect input. Please input a or b\n\n")
@@ -19,8 +20,9 @@ def pressureCooker(nightmare):
     ## ask permutations and timing with input validator function
     permutations = input_validator_int("How many times do you wish to repeat this input?\n[?] ")
     timing = input_validator_int("Should there be a delay with the repeated input? If so, enter any amount of seconds. If not, just type 0\n[?] ")
+    list += f"\namt. of times sending input: {permutations}\nseconds between each send: {timing}"
     ## 
-    finality = input("\nLast chance to change your mind!\nIf you enter \"y\" you will proceed and will have 12 seconds to select the text box of which you wish to enter into!\nEnter anything else to exit:\n[?] ")
+    finality = input(f"\nLast chance to change your mind!\nIf you proceed, you will have 12 seconds to select the text box of which you wish to enter into!\nA review of your inputs\n{list}\nType \"y\" to proceed, enter anything else to exit:\n[?] ")
 
     if finality == "y":
         print("Hop to it! The 12 seconds start now!")
@@ -85,11 +87,11 @@ def main():
 
             if query == "a":
                 query = input("Lively, type below your desired query (aka what you want repeated):\n[?] ")
-                pressureCooker(query)
+                pressureCooker(query, "Typed in query")
 
             elif query == "b":
                 print("Delightful! Before we start, ensure query.txt is in the same folder as this program!")
-                pressureCooker("txtfile")
+                pressureCooker("txtfile", "Query from Text File")
 
             else:
                 print("\n[!] EXITING DUE TO: typing something other than listed inputs.\nUnderstandable, have a good day!")
